@@ -18,10 +18,19 @@
             </nav>
         </header>
         <main class="flex-shrink-0">
-            {% with messages = get_flashed_messages() %}
+            {% with messages = get_flashed_messages(category_filter=["success"]) %}
                 {% if messages %}
                     {% for message in messages %}
-                        <div class="container-fluid alert alert-success mb-16" role="success">
+                        <div class="container-fluid alert alert-success mb-16" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            {% with messages = get_flashed_messages(category_filter=["info"]) %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="container-fluid alert alert-info mb-16" role="alert">
                             {{ message }}
                         </div>
                     {% endfor %}

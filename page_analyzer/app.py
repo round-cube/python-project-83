@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from page_analyzer.validation import check_url
 from page_analyzer.storage import URLStorage, UrlExists
-from page_analyzer.message_texts import URL_ADDED_SUCCESS
+from page_analyzer.message_texts import URL_ADDED_SUCCESS, URL_ALREADY_EXISTS
 from dotenv import load_dotenv
 from os import getenv
 
@@ -25,8 +25,13 @@ def add_url():
     if error:
         return render_template("index.html", error=error)
 
-    url = app.storage.add(url_name)
-    flash(URL_ADDED_SUCCESS)
+    try:
+        url = app.storage.add(url_name)
+    except UrlExists as e:
+        flash(URL_ALREADY_EXISTS, category="info")
+        return redirect(url_for('get_url', id=e.id))
+
+    flash(URL_ADDED_SUCCESS, category="success")
     return redirect(url_for('get_url', id=url["id"]))
 
 
