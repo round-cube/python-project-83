@@ -1,6 +1,9 @@
 from validators.url import url as validate_url
 from validators import ValidationFailure
-from page_analyzer.message_texts import URL_REQUIRED_ERROR, URL_TOO_LONG_ERROR, INCORRECT_URL_ERROR
+from page_analyzer.message_texts import (
+    URL_REQUIRED_ERROR,
+    URL_TOO_LONG_ERROR,
+    INCORRECT_URL_ERROR)
 
 
 MAX_URL_LEN = 255
