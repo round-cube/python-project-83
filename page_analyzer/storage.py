@@ -28,7 +28,7 @@ class URLStorage:
             with connection.cursor(cursor_factory=DictCursor) as cursor:
                 cursor.execute(query, query_args)
                 if many:
-                    return cursor.fetchmany()
+                    return cursor.fetchall()
                 else:
                     return cursor.fetchone()
 
