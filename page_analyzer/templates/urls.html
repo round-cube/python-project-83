@@ -13,10 +13,10 @@
             </tr>
             {% for url in urls %}
                 <tr>
-                    <td scope="col">{{ url["id"] }}</th>
-                    <td scope="col"><a href={{ url_for("get_url", id=url["id"]) }}>{{ url["name"] }}</a></th>
-                    <td scope="col">{{ url["last_checked_at"].date() if url["last_checked_at"] is not none else "" }}</th>
-                    <td scope="col">{{ url["status_code"] if url["status_code"] is not none else "" }}</th>
+                    <td scope="col">{{ url["id"] }}</td>
+                    <td scope="col"><a href={{ url_for("get_url", id=url["id"]) }}>{{ url["name"] }}</a></td>
+                    <td scope="col">{{ url["last_checked_at"].date() if url["last_checked_at"] is not none else "" }}</td>
+                    <td scope="col">{{ url["status_code"] if url["status_code"] is not none else "" }}</td>
                 </tr>
             {% endfor %}
         </table>

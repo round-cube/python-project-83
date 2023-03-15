@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from page_analyzer.validation import check_url
-from page_analyzer.storage import URLStorage, UrlExists
+from page_analyzer.storage import URLStorage, UrlExists, UrlNotFound
 from page_analyzer.message_texts import URL_ADDED_SUCCESS, URL_ALREADY_EXISTS
 from dotenv import load_dotenv
 from os import getenv
@@ -37,8 +37,20 @@ def add_url():
 
 @app.route("/urls/<int:id>", methods=["GET"])
 def get_url(id):
-    url = app.storage.get(id)
+    try:
+        url = app.storage.get(id)
+    except UrlNotFound:
+        return render_template("404.html")
     return render_template("url.html", url=url)
+
+
+@app.route("/urls/<int:id>/checks", methods=["POST"])
+def add_url_check(id):
+    try:
+        app.storage.add_url_check(id)
+    except UrlNotFound:
+        return render_template("404.html")
+    return redirect(url_for("get_url", id=id))
 
 
 @app.route("/urls", methods=["GET"])
