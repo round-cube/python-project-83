@@ -25,8 +25,9 @@ GET_URLS_QUERY = """SELECT DISTINCT ON (id)
                            url_checks.status_code as status_code
                     FROM urls
                     LEFT JOIN url_checks ON urls.id = url_checks.url_id
-                    ORDER BY id DESC;"""
-ADD_URL_CHECK = """INSERT INTO url_checks (url_id) VALUES (%(id)s)
+                    ORDER BY id DESC, url_checks.created_at DESC;"""
+ADD_URL_CHECK = """INSERT INTO url_checks (url_id, status_code)
+                   VALUES (%(id)s, %(status_code)s)
                    RETURNING id;"""
 
 
@@ -78,5 +79,5 @@ class URLStorage:
     def list(self):
         return self._execute(GET_URLS_QUERY, return_many=True)
 
-    def add_url_check(self, id):
-        return self._execute(ADD_URL_CHECK, id=id)
+    def add_url_check(self, id, status_code):
+        return self._execute(ADD_URL_CHECK, id=id, status_code=status_code)
