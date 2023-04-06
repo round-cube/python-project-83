@@ -251,8 +251,8 @@ watchdog = ["watchdog"]
 
 [metadata]
 lock-version = "1.1"
-python-versions = "^3.11"
-content-hash = "9bb265fbfacf03673b29273d71b03c75a7bcaa7024627c32e5f25fe9de3ed95c"
+python-versions = "^3.10"
+content-hash = "c01561ab6e6e3fd54eb82d1249ae9b7481b22087ade38a41475d5acc3084cba4"
 
 [metadata.files]
 beautifulsoup4 = []
