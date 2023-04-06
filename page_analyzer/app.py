@@ -24,7 +24,7 @@ def add_url():
     url_name = request.form.get("url", None)
     error = check_url(url_name)
     if error:
-        return render_template("index.html", error=error)
+        return render_template("index.html", error=error), 422
 
     try:
         url = app.storage.add(url_name)
