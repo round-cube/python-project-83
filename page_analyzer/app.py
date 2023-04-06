@@ -4,7 +4,7 @@ from page_analyzer.storage import URLStorage, UrlExists, UrlNotFound
 from page_analyzer.message_texts import URL_ADDED_SUCCESS, URL_ALREADY_EXISTS
 from dotenv import load_dotenv
 from os import getenv
-from page_analyzer.web import fetch_url, URLFetchError
+from page_analyzer.web import fetch_url, URLFetchError, parse_html
 
 
 load_dotenv()
@@ -52,12 +52,18 @@ def add_url_check(id):
     except UrlNotFound:
         return render_template("404.html")
 
+    kwargs = {}
+
     try:
-        status_code = fetch_url(url["name"])
+        response = fetch_url(url["name"])
     except URLFetchError as e:
         return render_template("url.html", url=url, error=e.text)
 
-    _ = app.storage.add_url_check(id, status_code)
+    kwargs["status_code"] = response.status_code
+    (kwargs["h1"], kwargs["title"],
+     kwargs["description"]) = parse_html(response.content)
+
+    _ = app.storage.add_url_check(id, **kwargs)
     return redirect(url_for("get_url", id=id))
 
 
