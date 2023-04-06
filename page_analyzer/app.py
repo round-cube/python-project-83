@@ -57,7 +57,7 @@ def add_url_check(id):
     try:
         response = fetch_url(url["name"])
     except URLFetchError as e:
-        return render_template("url.html", url=url, error=e.text)
+        return redirect(url_for('url_show', id=id, error=e.text))
 
     kwargs["status_code"] = response.status_code
     (kwargs["h1"], kwargs["title"],
