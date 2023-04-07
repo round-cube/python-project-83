@@ -41,6 +41,15 @@
                     {% endfor %}
                 {% endif %}
             {% endwith %}
+            {% with messages = get_flashed_messages(category_filter=["error"]) %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="container-fluid alert alert-danger mb-16" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
             {% block main %}{% endblock %}
         </main>
         <footer class="footer mt-auto px-0 py-3 container-fluid text-center">

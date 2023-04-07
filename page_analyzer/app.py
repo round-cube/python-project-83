@@ -1,7 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from page_analyzer.validation import check_url
 from page_analyzer.storage import URLStorage, UrlExists, UrlNotFound
-from page_analyzer.message_texts import URL_ADDED_SUCCESS, URL_ALREADY_EXISTS, URL_CHECK_SUCCESS
+from page_analyzer.message_texts import (
+    URL_ADDED_SUCCESS,
+    URL_ALREADY_EXISTS,
+    URL_CHECK_SUCCESS,
+)
 from dotenv import load_dotenv
 from os import getenv
 from page_analyzer.web import fetch_url, URLFetchError, parse_html
@@ -57,7 +61,8 @@ def add_url_check(id):
     try:
         response = fetch_url(url["name"])
     except URLFetchError as e:
-        return redirect(url_for('url_show', id=id, error=e.text))
+        flash(e.text, category="error")
+        return redirect(url_for('get_url', id=id))
 
     kwargs["status_code"] = response.status_code
     (kwargs["h1"], kwargs["title"],
