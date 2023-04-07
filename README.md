@@ -6,7 +6,7 @@
 
 ## Screenshots
 
-![Demo] (screenshots/out.gif)
+![Demo](screenshots/out.gif)
 
 
 ## Requirements
