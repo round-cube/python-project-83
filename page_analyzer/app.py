@@ -5,10 +5,13 @@ from page_analyzer.message_texts import (
     URL_ADDED_SUCCESS,
     URL_ALREADY_EXISTS,
     URL_CHECK_SUCCESS,
+    URL_CHECK_ERROR
 )
 from dotenv import load_dotenv
 from os import getenv
-from page_analyzer.web import fetch_url, URLFetchError, parse_html
+from page_analyzer.web import parse_html
+from requests import get
+from requests.exceptions import RequestException
 
 
 load_dotenv()
@@ -59,9 +62,10 @@ def add_url_check(id):
     kwargs = {}
 
     try:
-        response = fetch_url(url["name"])
-    except URLFetchError as e:
-        flash(e.text, category="error")
+        response = get(url["name"])
+        response.raise_for_status()
+    except RequestException:
+        flash(URL_CHECK_ERROR, category="error")
         return redirect(url_for('get_url', id=id))
 
     kwargs["status_code"] = response.status_code
